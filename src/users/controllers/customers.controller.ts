@@ -16,6 +16,11 @@ import { CreateCustomerDto, UpdateCustomerDto } from '../dtos/customer.dto';
 export class CustomerController {
   constructor(private customersService: CustomersService) {}
 
+  @Post()
+  create(@Body() payload: CreateCustomerDto) {
+    return this.customersService.create(payload);
+  }
+
   @Get()
   findAll() {
     return this.customersService.findAll();
@@ -24,11 +29,6 @@ export class CustomerController {
   @Get(':id')
   get(@Param('id', MongoIdPipe) id: string) {
     return this.customersService.findOne(id);
-  }
-
-  @Post()
-  create(@Body() payload: CreateCustomerDto) {
-    return this.customersService.create(payload);
   }
 
   @Put(':id')

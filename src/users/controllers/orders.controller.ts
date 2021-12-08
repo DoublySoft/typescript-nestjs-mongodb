@@ -20,6 +20,11 @@ import {
 export class OrderController {
   constructor(private ordersService: OrdersService) {}
 
+  @Post()
+  create(@Body() payload: CreateOrderDto) {
+    return this.ordersService.create(payload);
+  }
+
   @Get()
   findAll() {
     return this.ordersService.findAll();
@@ -28,11 +33,6 @@ export class OrderController {
   @Get(':id')
   get(@Param('id', MongoIdPipe) id: string) {
     return this.ordersService.findOne(id);
-  }
-
-  @Post()
-  create(@Body() payload: CreateOrderDto) {
-    return this.ordersService.create(payload);
   }
 
   @Put(':id')

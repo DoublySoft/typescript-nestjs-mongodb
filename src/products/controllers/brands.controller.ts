@@ -18,6 +18,11 @@ import { CreateBrandDto, UpdateBrandDto } from '../dtos/brand.dtos';
 export class BrandsController {
   constructor(private brandsService: BrandsService) {}
 
+  @Post()
+  create(@Body() payload: CreateBrandDto) {
+    return this.brandsService.create(payload);
+  }
+
   @Get()
   findAll() {
     return this.brandsService.findAll();
@@ -26,11 +31,6 @@ export class BrandsController {
   @Get(':id')
   get(@Param('id', MongoIdPipe) id: string) {
     return this.brandsService.findOne(id);
-  }
-
-  @Post()
-  create(@Body() payload: CreateBrandDto) {
-    return this.brandsService.create(payload);
   }
 
   @Put(':id')

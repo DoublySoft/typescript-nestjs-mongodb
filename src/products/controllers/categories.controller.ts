@@ -16,6 +16,11 @@ import { CreateCategoryDto, UpdateCategoryDto } from './../dtos/category.dtos';
 export class CategoriesController {
   constructor(private categoriesService: CategoriesService) {}
 
+  @Post()
+  create(@Body() payload: CreateCategoryDto) {
+    return this.categoriesService.create(payload);
+  }
+
   @Get()
   findAll() {
     return this.categoriesService.findAll();
@@ -24,11 +29,6 @@ export class CategoriesController {
   @Get(':id')
   get(@Param('id', MongoIdPipe) id: string) {
     return this.categoriesService.findOne(id);
-  }
-
-  @Post()
-  create(@Body() payload: CreateCategoryDto) {
-    return this.categoriesService.create(payload);
   }
 
   @Put(':id')

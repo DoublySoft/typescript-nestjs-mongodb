@@ -9,9 +9,9 @@ import { CreateBrandDto, UpdateBrandDto } from '../dtos/brand.dtos';
 export class BrandsService {
   constructor(@InjectModel(Brand.name) private brandModel: Model<Brand>) {}
 
-  create(data: CreateBrandDto) {
+  async create(data: CreateBrandDto) {
     const createBrand = new this.brandModel(data);
-    return createBrand.save();
+    return await createBrand.save();
   }
 
   async findAll() {
@@ -21,7 +21,7 @@ export class BrandsService {
   async findOne(id: string) {
     const brand = await this.brandModel.findById(id);
     if (!brand) {
-      throw new NotFoundException(`Brand #${id} not found`);
+      throw new NotFoundException('brand.not_found');
     }
     return brand;
   }
@@ -30,7 +30,7 @@ export class BrandsService {
     const brand = await this.brandModel.findByIdAndUpdate(id, changes, {
       new: true,
     });
-    if (!brand) throw new NotFoundException(`Brand #${id} not found`);
+    if (!brand) throw new NotFoundException('brand.not_found');
     return brand;
   }
 
