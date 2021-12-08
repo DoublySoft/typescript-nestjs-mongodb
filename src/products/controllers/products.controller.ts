@@ -1,3 +1,4 @@
+import { JwtAuthGuard } from './../../auth/guards/jwt-auth.guard';
 import { FilterProductsDto } from './../dtos/products.dtos';
 import { MongoIdPipe } from './../../common/mongo-id.pipe';
 import {
@@ -11,12 +12,15 @@ import {
   Delete,
   HttpStatus,
   HttpCode,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 
 import { CreateProductDto, UpdateProductDto } from '../dtos/products.dtos';
 import { ProductsService } from './../services/products.service';
+import { Public } from 'src/auth/decorators/public.decorator';
 
+@UseGuards(JwtAuthGuard)
 @ApiTags('products')
 @Controller('products')
 export class ProductsController {
@@ -28,12 +32,14 @@ export class ProductsController {
   }
 
   @Get()
+  @Public()
   @ApiOperation({ summary: 'List of products' })
   getProducts(@Query() params: FilterProductsDto) {
     return this.productsService.findAll(params);
   }
 
   @Get('filter')
+  @Public()
   getProductFilter() {
     return `yo soy un filter`;
   }
