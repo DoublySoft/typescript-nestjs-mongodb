@@ -10,8 +10,12 @@ import {
   ValidateIf,
   ValidateNested,
   IsMongoId,
+  IsArray,
 } from 'class-validator';
+import { Type } from 'class-transformer';
+
 import { CreateCategoryDto } from './category.dtos';
+import { CreateSubDocDto } from './sub-doc.dto';
 
 export class CreateProductDto {
   @IsString({ message: 'product.name.is_string' })
@@ -49,6 +53,16 @@ export class CreateProductDto {
   @IsMongoId({ message: 'product.brand.invalid_id' })
   @ApiProperty()
   readonly brand: string;
+
+  @IsNotEmpty()
+  @ValidateNested()
+  readonly subDoc: CreateSubDocDto;
+
+  @IsNotEmpty()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => CreateSubDocDto)
+  readonly subDocs: CreateSubDocDto[];
 }
 
 export class UpdateProductDto extends PartialType(CreateProductDto) {}
