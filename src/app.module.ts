@@ -2,9 +2,14 @@ import { Module, HttpModule, HttpService } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 
+import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { ProductsModule } from './products/products.module';
 import { DatabaseModule } from './database/database.module';
+
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+
 import { enviroments } from './enviroments';
 import config from './config';
 
@@ -15,18 +20,20 @@ import config from './config';
       load: [config],
       isGlobal: true,
       validationSchema: Joi.object({
-        API_KEY: Joi.number().required(),
+        API_KEY: Joi.string().required(),
         DATABASE_NAME: Joi.string().required(),
         DATABASE_PORT: Joi.number().required(),
       }),
     }),
     HttpModule,
+    AuthModule,
     UsersModule,
     ProductsModule,
     DatabaseModule,
   ],
-  controllers: [],
+  controllers: [AppController],
   providers: [
+    AppService,
     {
       provide: 'TASKS',
       useFactory: async (http: HttpService) => {
