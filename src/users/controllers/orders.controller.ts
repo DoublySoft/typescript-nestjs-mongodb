@@ -10,7 +10,11 @@ import {
 } from '@nestjs/common';
 
 import { OrdersService } from '../services/orders.service';
-import { CreateOrderDto, UpdateOrderDto } from './../dtos/oder.dto';
+import {
+  CreateOrderDto,
+  UpdateOrderDto,
+  AddProductsToOrderDto,
+} from './../dtos/oder.dto';
 
 @Controller('orders')
 export class OrderController {
@@ -42,5 +46,18 @@ export class OrderController {
   @Delete(':id')
   remove(@Param('id', MongoIdPipe) id: string) {
     return this.ordersService.remove(id);
+  }
+
+  @Put(':id/products')
+  addProducts(@Param('id') id: string, @Body() payload: AddProductsToOrderDto) {
+    return this.ordersService.addProducts(id, payload.productsIds);
+  }
+
+  @Delete(':id/products/:productId')
+  removeProduct(
+    @Param('id', MongoIdPipe) id: string,
+    @Param('productId', MongoIdPipe) productId: string,
+  ) {
+    return this.ordersService.removeProduct(id, productId);
   }
 }
