@@ -22,6 +22,11 @@ import { ProductsService } from './../services/products.service';
 export class ProductsController {
   constructor(private productsService: ProductsService) {}
 
+  @Post()
+  create(@Body() payload: CreateProductDto) {
+    return this.productsService.create(payload);
+  }
+
   @Get()
   @ApiOperation({ summary: 'List of products' })
   getProducts(@Query() params: FilterProductsDto) {
@@ -37,11 +42,6 @@ export class ProductsController {
   @HttpCode(HttpStatus.ACCEPTED)
   getOne(@Param('productId', MongoIdPipe) productId: string) {
     return this.productsService.findOne(productId);
-  }
-
-  @Post()
-  create(@Body() payload: CreateProductDto) {
-    return this.productsService.create(payload);
   }
 
   @Put(':id')

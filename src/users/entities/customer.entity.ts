@@ -1,6 +1,16 @@
-export class Customer {
-  id: number;
+import { Document } from 'mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+
+@Schema()
+export class Customer extends Document {
+  @Prop({ required: true })
   name: string;
-  lastName: string;
+
+  @Prop()
+  lasName: string;
+
+  @Prop()
   phone: string;
 }
+
+export const CustomerSchema = SchemaFactory.createForClass(Customer);
