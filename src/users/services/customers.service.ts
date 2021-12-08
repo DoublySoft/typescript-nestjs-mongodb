@@ -22,7 +22,7 @@ export class CustomersService {
 
   async findOne(id: string) {
     const customer = this.customerModel.findById(id);
-    if (!customer) throw new NotFoundException(`Customer #${id} not found`);
+    if (!customer) throw new NotFoundException('product.not_found');
     return customer;
   }
 
@@ -30,7 +30,7 @@ export class CustomersService {
     const customer = this.customerModel.findByIdAndUpdate(id, changes, {
       new: true,
     });
-    if (!customer) throw new NotFoundException(`Customer #${id} not found`);
+    if (!customer) throw new NotFoundException('product.not_found');
     return customer;
   }
 

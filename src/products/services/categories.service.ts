@@ -37,6 +37,6 @@ export class CategoriesService {
   async remove(id: string) {
     const category = this.categoryModel.findByIdAndDelete(id);
     if (!category) throw new NotFoundException(`Category #${id} not found`);
-    return true;
+    return true ? true : false;
   }
 }
